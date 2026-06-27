@@ -1,0 +1,9 @@
+services:
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    # On mettra ici la configuration de la base de données (PostgreSQL) 
+    # si on décide de l'utiliser plus tard. Pour l'instant, SQLite suffira.
