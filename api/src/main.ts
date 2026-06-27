@@ -10,6 +10,9 @@ import { BusinessRuleFilter } from './common/filters/business-rule.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Préfixe global pour le versionnement
+  app.setGlobalPrefix('api/v1');
+
   // Validation des DTO globale
   app.useGlobalPipes(
     new ValidationPipe({
@@ -39,7 +42,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); // L'UI sera sur http://localhost:3000/api
+  SwaggerModule.setup('api/docs', app, document); // L'UI sera sur http://localhost:3000/api/docs
 
   app.enableCors();
   await app.listen(process.env.PORT ?? 3000);
