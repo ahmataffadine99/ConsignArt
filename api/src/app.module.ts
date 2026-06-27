@@ -5,6 +5,7 @@ import { validate } from './config/env.validation';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ArtistsModule } from './modules/artists/artists.module';
+import { ArtworksModule } from './modules/artworks/artworks.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ArtistsModule } from './modules/artists/artists.module';
     UsersModule,
     AuthModule,
     ArtistsModule,
+    ArtworksModule,
   ],
   controllers: [],
   providers: [],
