@@ -4,6 +4,24 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
-    # On mettra ici la configuration de la base de données (PostgreSQL) 
-    # si on décide de l'utiliser plus tard. Pour l'instant, SQLite suffira.
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=consignart_user
+      - DB_PASSWORD=consignart_pass
+      - DB_DATABASE=consignart
+      - JWT_SECRET=secret_super_secure_jwt
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: consignart_user
+      POSTGRES_PASSWORD: consignart_pass
+      POSTGRES_DB: consignart
+
+volumes:
+  pgdata:
