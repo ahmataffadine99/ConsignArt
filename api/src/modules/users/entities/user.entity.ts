@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Role } from '../enums/role.enum';
+import { Artist } from '../../artists/entities/artist.entity';
 
 @Entity('users')
 export class User {
@@ -29,4 +31,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToOne(() => Artist, artist => artist.user, { nullable: true, cascade: true })
+  artistProfile: Artist;
 }
