@@ -34,7 +34,7 @@ export class SeederService implements OnModuleInit {
       role: Role.ADMIN,
     });
 
-    await this.usersService.create({
+    const userGallery = await this.usersService.create({
       email: 'gallery@consignart.com',
       password: 'password123',
       role: Role.GALLERY,
@@ -66,6 +66,7 @@ export class SeederService implements OnModuleInit {
       lastName: 'Picasso',
       biography: 'Peintre espagnol, pionnier du cubisme.',
       nationality: 'Espagnole',
+      galleryId: userGallery.id,
     });
 
     await this.artistsService.create(userDali.id, {
@@ -73,6 +74,7 @@ export class SeederService implements OnModuleInit {
       lastName: 'Dali',
       biography: 'Artiste surréaliste excentrique.',
       nationality: 'Espagnole',
+      galleryId: userGallery.id,
     });
 
     // 4. Création des Œuvres

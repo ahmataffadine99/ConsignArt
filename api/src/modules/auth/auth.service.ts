@@ -34,6 +34,20 @@ export class AuthService {
     const payload = { sub: user.id, role: user.role };
     return {
       access_token: this.jwtService.sign(payload),
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
     };
+  }
+
+  async refresh(refresh_token: string) {
+    try {
+      const decoded = this.jwtService.verify(refresh_token);
+      const payload = { sub: decoded.sub, role: decoded.role };
+      return {
+        access_token: this.jwtService.sign(payload),
+        refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
+      };
+    } catch (e) {
+      throw new UnauthorizedException('Refresh token invalide ou expiré');
+    }
   }
 }

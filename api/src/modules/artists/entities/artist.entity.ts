@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
 @Entity('artists')
@@ -30,6 +30,13 @@ export class Artist {
 
   @Column()
   userId: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'galleryId' })
+  gallery: User;
+
+  @Column({ nullable: true })
+  galleryId: string;
 
   @CreateDateColumn()
   createdAt: Date;

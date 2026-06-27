@@ -15,6 +15,11 @@ export class CreateArtistDto {
   @ApiPropertyOptional({ example: true, description: 'Statut de l’artiste' })
   @IsOptional()
   isActive?: boolean;
+
+  @ApiPropertyOptional({ description: 'ID de la galerie gérant l\'artiste' })
+  @IsOptional()
+  @IsString()
+  galleryId?: string;
   @ApiPropertyOptional({ description: 'Biographie détaillée de l’artiste' })
   @IsOptional()
   @IsString()

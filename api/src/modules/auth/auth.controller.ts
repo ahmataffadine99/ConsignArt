@@ -16,4 +16,13 @@ export class AuthController {
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
+
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Rafraîchir le Token JWT' })
+  @ApiResponse({ status: 200, description: 'Token rafraîchi avec succès' })
+  @ApiResponse({ status: 401, description: 'Refresh token invalide' })
+  refresh(@Body() refreshDto: import('./dto/refresh.dto').RefreshDto) {
+    return this.authService.refresh(refreshDto.refresh_token);
+  }
 }
