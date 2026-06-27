@@ -32,6 +32,10 @@ export class ArtistsService {
     return artist;
   }
 
+  async findByUserId(userId: string): Promise<Artist | null> {
+    return this.artistRepository.findOne({ where: { userId } });
+  }
+
   async update(id: string, updateArtistDto: UpdateArtistDto): Promise<Artist> {
     const artist = await this.findOne(id);
     Object.assign(artist, updateArtistDto);

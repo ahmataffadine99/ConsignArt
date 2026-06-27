@@ -5,6 +5,7 @@ import { CreateArtworkDto } from './dto/create-artwork.dto';
 import { UpdateArtworkDto } from './dto/update-artwork.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
+import { OwnershipGuard } from '../../common/guards/ownership.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Role } from '../users/enums/role.enum';
 
@@ -35,10 +36,10 @@ export class ArtworksController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard, OwnershipGuard)
   @Roles(Role.ARTIST, Role.GALLERY)
   @ApiBearerAuth()
-  @ApiOperation({ summary: "Modifier une œuvre (Réservé aux artistes/galeries)" })
+  @ApiOperation({ summary: "Modifier une œuvre (Réservé au créateur)" })
   update(@Param('id') id: string, @Body() updateArtworkDto: UpdateArtworkDto) {
     return this.artworksService.update(id, updateArtworkDto);
   }
