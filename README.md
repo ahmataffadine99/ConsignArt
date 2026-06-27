@@ -17,7 +17,7 @@ L'application démarrera automatiquement sur **http://localhost:3000**.
 - **Documentation de l'API (Swagger)** : http://localhost:3000/api
 - **Interface Base de données (Adminer)** : http://localhost:8080 (Système: PostgreSQL, Serveur: db, Utilisateur: postgres, Mot de passe: postgres, Base: consignart)
 
-> **Note sur les Fixtures (Seeder)** : Dès que vous lancez l'application via Docker, un script de seeding intelligent (`SeederService`) s'exécute automatiquement. Il remplit la base de données avec 4 comptes utilisateurs (Admin, Gallery, Picasso, Collector) et plusieurs œuvres associées à Picasso et Dali, pour vous permettre de tester immédiatement les requêtes !
+> **Note sur les Fixtures (Seeder)** : Dès que vous lancez l'application via Docker, un script de seeding intelligent (`SeederService`) s'exécute automatiquement. Il remplit la base de données avec 4 comptes utilisateurs (Admin, Gallery, Artist, Collector) et plusieurs œuvres associées à des artistes, pour vous permettre de tester immédiatement les requêtes !
 Le mot de passe pour tous les comptes de test est : `password123`.
 
 ---
@@ -43,7 +43,7 @@ Pour respecter les meilleures pratiques architecturales et les contraintes du ca
 1. **Guards & Sécurité**
    - **`JwtAuthGuard`** : Vérifie la validité du Token JWT sur toutes les routes protégées.
    - **`RolesGuard`** : Limite l'accès à certains endpoints (ex: seul l'Admin peut supprimer un utilisateur).
-   - **`OwnershipGuard`** : *(Guard métier)* Vérifie en base de données qu'une œuvre d'art appartient bien à l'utilisateur qui tente de la modifier. Un artiste ne peut pas vandaliser le travail d'un autre.
+   - **`OwnershipGuard`** : *(Guard métier)* Vérifie en base de données qu'une œuvre d'art appartient bien à l'utilisateur qui tente de la modifier. Un artiste ne peut pas modifier l'œuvre d'un autre artiste.
 
 2. **Interceptors (Formatage et Logging)**
    - **`TransformInterceptor`** : Standardise toutes les réponses de l'API sous le format `{ data, meta, timestamp }` pour faciliter le travail du Frontend.
