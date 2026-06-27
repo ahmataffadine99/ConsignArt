@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
 import { Artist } from '../../artists/entities/artist.entity';
 import { ArtworkStatus } from '../enums/artwork-status.enum';
 
@@ -16,6 +16,7 @@ export class Artwork {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
+  @Index()
   @Column({ type: 'enum', enum: ArtworkStatus, default: ArtworkStatus.AVAILABLE })
   status: ArtworkStatus;
 
