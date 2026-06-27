@@ -6,6 +6,8 @@ import { UpdateArtworkDto } from './dto/update-artwork.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { OwnershipGuard } from '../../common/guards/ownership.guard';
+import { NormalizePricePipe } from '../../common/pipes/normalize-price.pipe';
+import { NotSoldPipe } from '../../common/pipes/not-sold.pipe';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Role } from '../users/enums/role.enum';
 
@@ -18,19 +20,20 @@ export class ArtworksController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ARTIST, Role.GALLERY)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Ajouter une œuvre (Réservé aux artistes/galeries)' })
-  create(@Request() req: any, @Body() createArtworkDto: CreateArtworkDto) {
-    return this.artworksService.create(req.user.userId, createArtworkDto);
+  @ApiOperation({ summary: "Créer une nouvelle œuvre (Réservé aux artistes/galeries)" })
+  create(@Request() req: any, @Body(NormalizePricePipe) createArtworkDto: CreateArtworkDto) {
+    const userId = req.user.userId;
+    return this.artworksService.create(userId, createArtworkDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Lister toutes les œuvres (Public)' })
+  @ApiOperation({ summary: "Lister toutes les œuvres d'art (Public)" })
   findAll() {
     return this.artworksService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Récupérer une œuvre (Public)' })
+  @ApiOperation({ summary: "Obtenir les détails d'une œuvre (Public)" })
   findOne(@Param('id') id: string) {
     return this.artworksService.findOne(id);
   }
@@ -40,7 +43,10 @@ export class ArtworksController {
   @Roles(Role.ARTIST, Role.GALLERY)
   @ApiBearerAuth()
   @ApiOperation({ summary: "Modifier une œuvre (Réservé au créateur)" })
-  update(@Param('id') id: string, @Body() updateArtworkDto: UpdateArtworkDto) {
+  update(
+    @Param('id', NotSoldPipe) id: string, 
+    @Body(NormalizePricePipe) updateArtworkDto: UpdateArtworkDto
+  ) {
     return this.artworksService.update(id, updateArtworkDto);
   }
 
