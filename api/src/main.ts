@@ -4,6 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { BusinessRuleFilter } from './common/filters/business-rule.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +17,12 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       transform: true,
     }),
+  );
+
+  // Filtres d'exceptions globaux
+  app.useGlobalFilters(
+    new GlobalExceptionFilter(),
+    new BusinessRuleFilter(),
   );
 
   // Intercepteurs globaux
