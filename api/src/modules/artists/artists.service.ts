@@ -21,11 +21,11 @@ export class ArtistsService {
   }
 
   findAll(): Promise<Artist[]> {
-    return this.artistRepository.find({ relations: ['user'] });
+    return this.artistRepository.find({ relations: { user: true } });
   }
 
   async findOne(id: string): Promise<Artist> {
-    const artist = await this.artistRepository.findOne({ where: { id }, relations: ['user'] });
+    const artist = await this.artistRepository.findOne({ where: { id }, relations: { user: true } });
     if (!artist) {
       throw new NotFoundException(`Artiste avec l'ID ${id} non trouvé`);
     }

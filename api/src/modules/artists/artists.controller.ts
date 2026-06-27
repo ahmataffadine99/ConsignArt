@@ -18,7 +18,7 @@ export class ArtistsController {
   @Roles(Role.ARTIST, Role.GALLERY)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Créer un profil artiste (Réservé aux artistes et galeries)' })
-  create(@Request() req, @Body() createArtistDto: CreateArtistDto) {
+  create(@Request() req: any, @Body() createArtistDto: CreateArtistDto) {
     // req.user est injecté par JwtStrategy
     return this.artistsService.create(req.user.userId, createArtistDto);
   }
