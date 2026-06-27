@@ -39,6 +39,11 @@ export class CreateArtworkDto {
   @Min(0)
   reservePrice?: number;
 
+  @ApiPropertyOptional({ description: 'ID de l\'artiste (requis si la galerie crée l\'œuvre)' })
+  @IsOptional()
+  @IsString()
+  artistId?: string;
+
   @ApiPropertyOptional({ enum: ArtworkStatus, example: ArtworkStatus.AVAILABLE, description: "Le statut de l'œuvre" })
   @IsOptional()
   @IsEnum(ArtworkStatus)

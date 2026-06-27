@@ -27,20 +27,29 @@ export class OwnershipGuard implements CanActivate {
       return true;
     }
 
-    // On récupère le profil de l'artiste correspondant à l'utilisateur connecté
-    const artist = await this.artistRepository.findOne({ where: { userId: user.userId } });
-    if (!artist) {
-      throw new ForbiddenException('Vous n\'avez pas de profil artiste.');
-    }
-
     // On récupère l'œuvre ciblée
     const artwork = await this.artworksService.findOne(artworkId);
+    if (!artwork) throw new NotFoundException("Œuvre introuvable");
 
-    // On vérifie que l'œuvre appartient bien à cet artiste
-    if (artwork.artistId !== artist.id) {
-      throw new ForbiddenException('Vous n\'êtes pas le propriétaire de cette œuvre d\'art.');
+    // Si l'utilisateur est un artiste
+    if (user.role === Role.ARTIST) {
+      const artist = await this.artistRepository.findOne({ where: { userId: user.userId } });
+      if (!artist || artwork.artistId !== artist.id) {
+        throw new ForbiddenException('Vous n\'êtes pas le propriétaire de cette œuvre d\'art.');
+      }
+      return true;
     }
 
-    return true;
+    // Si l'utilisateur est une galerie
+    if (user.role === Role.GALLERY) {
+      // Vérifier que l'artiste de l'œuvre appartient à cette galerie
+      const artist = await this.artistRepository.findOne({ where: { id: artwork.artistId, galleryId: user.userId } });
+      if (!artist) {
+        throw new ForbiddenException('Cette œuvre appartient à un artiste qui n\'est pas géré par votre galerie.');
+      }
+      return true;
+    }
+
+    return false;
   }
 }

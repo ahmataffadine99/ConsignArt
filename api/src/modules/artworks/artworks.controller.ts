@@ -22,8 +22,7 @@ export class ArtworksController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Créer une nouvelle œuvre (Réservé aux artistes/galeries)" })
   create(@Request() req: any, @Body(NormalizePricePipe) createArtworkDto: CreateArtworkDto) {
-    const userId = req.user.userId;
-    return this.artworksService.create(userId, createArtworkDto);
+    return this.artworksService.create(req.user, createArtworkDto);
   }
 
   @Get()
