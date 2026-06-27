@@ -19,5 +19,12 @@ services:
       POSTGRES_PASSWORD: consignart_pass
       POSTGRES_DB: consignart
 
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
 volumes:
   pgdata:
