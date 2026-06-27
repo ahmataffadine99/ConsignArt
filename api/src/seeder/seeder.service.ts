@@ -62,11 +62,15 @@ export class SeederService implements OnModuleInit {
     this.logger.log('Création des profils artistes...');
     
     await this.artistsService.create(userPicasso.id, {
+      firstName: 'Pablo',
+      lastName: 'Picasso',
       biography: 'Peintre espagnol, pionnier du cubisme.',
       nationality: 'Espagnole',
     });
 
     await this.artistsService.create(userDali.id, {
+      firstName: 'Salvador',
+      lastName: 'Dali',
       biography: 'Artiste surréaliste excentrique.',
       nationality: 'Espagnole',
     });
@@ -77,21 +81,33 @@ export class SeederService implements OnModuleInit {
     await this.artworksService.create(userPicasso.id, {
       title: 'Guernica',
       description: 'Célèbre peinture murale cubiste',
+      year: 1937,
+      technique: 'Huile sur toile',
+      dimensions: { hauteur: 349, largeur: 776 },
       price: 5000000,
+      reservePrice: 4000000,
       status: ArtworkStatus.RESERVED,
     });
 
     await this.artworksService.create(userPicasso.id, {
       title: 'Les Demoiselles d\'Avignon',
       description: 'Œuvre fondatrice du cubisme',
+      year: 1907,
+      technique: 'Huile sur toile',
+      dimensions: { hauteur: 243, largeur: 233 },
       price: 2000000,
+      reservePrice: 1500000,
       status: ArtworkStatus.AVAILABLE,
     });
 
     await this.artworksService.create(userDali.id, {
       title: 'La Persistance de la mémoire',
       description: 'Les fameuses montres molles',
+      year: 1931,
+      technique: 'Huile sur toile',
+      dimensions: { hauteur: 24, largeur: 33 },
       price: 3500000,
+      reservePrice: 3000000,
       status: ArtworkStatus.AVAILABLE,
     });
 

@@ -13,11 +13,31 @@ export class CreateArtworkDto {
   @IsString()
   description: string;
 
+  @ApiPropertyOptional({ example: 1999, description: 'Année de création' })
+  @IsOptional()
+  @IsNumber()
+  year?: number;
+
+  @ApiPropertyOptional({ example: 'Huile sur toile', description: 'Technique utilisée' })
+  @IsOptional()
+  @IsString()
+  technique?: string;
+
+  @ApiPropertyOptional({ example: { hauteur: 100, largeur: 80 }, description: 'Dimensions de l\'œuvre' })
+  @IsOptional()
+  dimensions?: any;
+
   @ApiProperty({ example: 1500.50, description: "Le prix de l'œuvre" })
   @IsNotEmpty()
   @IsNumber()
   @Min(0)
   price: number;
+
+  @ApiPropertyOptional({ example: 1000.00, description: 'Prix de réserve' })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  reservePrice?: number;
 
   @ApiPropertyOptional({ enum: ArtworkStatus, example: ArtworkStatus.AVAILABLE, description: "Le statut de l'œuvre" })
   @IsOptional()

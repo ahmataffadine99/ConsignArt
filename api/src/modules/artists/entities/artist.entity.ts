@@ -6,8 +6,17 @@ export class Artist {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
   @Column({ type: 'text', nullable: true })
   biography: string;
+
+  @Column({ default: true })
+  isActive: boolean;
 
   @Column({ nullable: true })
   nationality: string;

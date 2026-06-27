@@ -8,13 +8,23 @@ export class Artwork {
   id: string;
 
   @Column()
-  title: string;
-
   @Column({ type: 'text' })
   description: string;
 
+  @Column({ nullable: true })
+  year: number;
+
+  @Column({ nullable: true })
+  technique: string;
+
+  @Column({ type: 'jsonb', nullable: true })
+  dimensions: any;
+
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  reservePrice: number;
 
   @Index()
   @Column({ type: 'enum', enum: ArtworkStatus, default: ArtworkStatus.AVAILABLE })
