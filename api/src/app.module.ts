@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ArtistsModule } from './modules/artists/artists.module';
 import { ArtworksModule } from './modules/artworks/artworks.module';
+import { SeederModule } from './seeder/seeder.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ArtworksModule } from './modules/artworks/artworks.module';
     AuthModule,
     ArtistsModule,
     ArtworksModule,
+    SeederModule,
   ],
   controllers: [],
   providers: [],
