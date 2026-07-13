@@ -88,7 +88,7 @@ export class SeederService implements OnModuleInit {
       dimensions: { hauteur: 349, largeur: 776 },
       price: 5000000,
       reservePrice: 4000000,
-      status: ArtworkStatus.RESERVED,
+      status: ArtworkStatus.AVAILABLE,
     });
 
     await this.artworksService.create(userPicasso.id, {
