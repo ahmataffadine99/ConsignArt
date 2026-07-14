@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { ArtworkStatusHistory } from '../entities/artwork-status-history.entity';
-import { ArtworkStatus } from '../enums/artwork-status.enum';
+import { ArtworkStatusHistory } from './entities/artwork-status-history.entity';
+import { ArtworkStatus } from './enums/artwork-status.enum';
 
 @Injectable()
 export class ArtworkStatusHistoryService {
