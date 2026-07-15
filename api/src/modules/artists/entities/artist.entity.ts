@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn, ManyToOne, Index } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
 @Entity('artists')
@@ -28,6 +28,7 @@ export class Artist {
   @JoinColumn({ name: 'userId' })
   user: User;
 
+  @Index()
   @Column()
   userId: string;
 
@@ -35,6 +36,7 @@ export class Artist {
   @JoinColumn({ name: 'galleryId' })
   gallery: User;
 
+  @Index()
   @Column({ nullable: true })
   galleryId: string;
 
