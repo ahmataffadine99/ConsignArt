@@ -22,7 +22,7 @@ Le mot de passe pour tous les comptes de test est : `password123`.
 
 Voici les emails des comptes générés pour vos tests :
 - **Admin** : `admin@consignart.com`
-- **Galerie** : `gallery@consignart.com`
+- **Galeries** : `gallery@consignart.com` et `gallery2@consignart.com`
 - **Collectionneur** : `collector@consignart.com`
 - **Artistes** : `picasso@consignart.com` et `dali@consignart.com`
 

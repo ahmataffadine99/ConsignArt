@@ -44,6 +44,12 @@ export class SeederService implements OnModuleInit {
       role: Role.GALLERY,
     });
 
+    const userGallery2 = await this.usersService.create({
+      email: 'gallery2@consignart.com',
+      password: 'password123',
+      role: Role.GALLERY,
+    });
+
     const userCollector = await this.usersService.create({
       email: 'collector@consignart.com',
       password: 'password123',
@@ -192,6 +198,15 @@ export class SeederService implements OnModuleInit {
       endDate: '2026-12-31T00:00:00Z',
       virtualLink: 'https://virtual.consignart.com/picasso',
       artworkIds: [aw6.id],
+    });
+
+    this.logger.log('Création des prêts (Loans)...');
+    await this.exhibitionsService.createLoan(userGallery.id, {
+      artworkId: aw2.id,
+      toGalleryId: userGallery2.id,
+      startDate: '2027-01-01T00:00:00Z',
+      endDate: '2027-02-01T00:00:00Z',
+      conditions: 'Transport sécurisé à la charge de la galerie emprunteuse.',
     });
 
     this.logger.log('Fixtures insérées avec succès !');
