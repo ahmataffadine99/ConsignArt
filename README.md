@@ -20,6 +20,12 @@ L'application démarrera automatiquement sur **http://localhost:3000**.
 > **Note sur les Fixtures (Seeder)** : Dès que vous lancez l'application via Docker, un script de seeding intelligent (`SeederService`) s'exécute automatiquement. Il remplit la base de données avec des comptes utilisateurs (Admin, Gallery, Artist, Collector), des œuvres, des ventes et des expositions, pour vous permettre de tester immédiatement les requêtes !
 Le mot de passe pour tous les comptes de test est : `password123`.
 
+Voici les emails des comptes générés pour vos tests :
+- **Admin** : `admin@consignart.com`
+- **Galerie** : `gallery@consignart.com`
+- **Collectionneur** : `collector@consignart.com`
+- **Artistes** : `picasso@consignart.com` et `dali@consignart.com`
+
 ---
 
 ## Fonctionnalités implémentées
