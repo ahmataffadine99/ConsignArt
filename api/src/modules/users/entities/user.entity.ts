@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -18,13 +19,15 @@ export class User {
   email: string;
 
   @Column()
-  password: string; // Hashé avec bcrypt
+  password: string;
 
+  @Index()
   @Column({ type: 'varchar', enum: Role, default: Role.COLLECTOR })
   role: Role;
 
+  @Index()
   @Column({ default: true })
-  isActive: boolean; // Les galeries (gallery) devront passer à false par défaut dans le service
+  isActive: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

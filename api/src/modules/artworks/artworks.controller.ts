@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ArtworksService } from './artworks.service';
+import { ArtworkStatusHistoryService } from './artwork-status-history.service';
 import { CreateArtworkDto } from './dto/create-artwork.dto';
 import { UpdateArtworkDto } from './dto/update-artwork.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -11,49 +12,62 @@ import { NotSoldPipe } from '../../common/pipes/not-sold.pipe';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Role } from '../users/enums/role.enum';
 
-@ApiTags('Œuvres d\'art (Artworks)')
+@ApiTags('Artworks')
 @Controller('artworks')
 export class ArtworksController {
-  constructor(private readonly artworksService: ArtworksService) {}
+  constructor(
+    private readonly artworksService: ArtworksService,
+    private readonly historyService: ArtworkStatusHistoryService,
+  ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ARTIST, Role.GALLERY)
   @ApiBearerAuth()
-  @ApiOperation({ summary: "Créer une nouvelle œuvre (Réservé aux artistes/galeries)" })
+  @ApiOperation({ summary: 'Create a new artwork' })
   create(@Request() req: any, @Body(NormalizePricePipe) createArtworkDto: CreateArtworkDto) {
     return this.artworksService.create(req.user, createArtworkDto);
   }
 
   @Get()
-  @ApiOperation({ summary: "Lister toutes les œuvres d'art (Public)" })
+  @ApiOperation({ summary: 'List all artworks' })
   findAll() {
     return this.artworksService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: "Obtenir les détails d'une œuvre (Public)" })
+  @ApiOperation({ summary: 'Get artwork details' })
   findOne(@Param('id') id: string) {
     return this.artworksService.findOne(id);
+  }
+
+  @Get(':id/history')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.GALLERY, Role.ARTIST)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get status change history of an artwork' })
+  getHistory(@Param('id') id: string) {
+    return this.historyService.findByArtworkId(id);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard, OwnershipGuard)
   @Roles(Role.ARTIST, Role.GALLERY)
   @ApiBearerAuth()
-  @ApiOperation({ summary: "Modifier une œuvre (Réservé au créateur)" })
+  @ApiOperation({ summary: 'Update an artwork' })
   update(
-    @Param('id', NotSoldPipe) id: string, 
-    @Body(NormalizePricePipe) updateArtworkDto: UpdateArtworkDto
+    @Request() req: any,
+    @Param('id', NotSoldPipe) id: string,
+    @Body(NormalizePricePipe) updateArtworkDto: UpdateArtworkDto,
   ) {
-    return this.artworksService.update(id, updateArtworkDto);
+    return this.artworksService.update(id, updateArtworkDto, req.user.userId);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @ApiBearerAuth()
-  @ApiOperation({ summary: "Supprimer une œuvre (Réservé aux Admins)" })
+  @ApiOperation({ summary: 'Delete an artwork' })
   remove(@Param('id') id: string) {
     return this.artworksService.remove(id);
   }

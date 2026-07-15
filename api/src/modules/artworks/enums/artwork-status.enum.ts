@@ -1,5 +1,6 @@
 export enum ArtworkStatus {
   AVAILABLE = 'AVAILABLE',
+  ON_LOAN = 'ON_LOAN',
   SOLD = 'SOLD',
-  RESERVED = 'RESERVED',
+  RETURNED = 'RETURNED',
 }

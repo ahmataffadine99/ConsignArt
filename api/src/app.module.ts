@@ -6,6 +6,9 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ArtistsModule } from './modules/artists/artists.module';
 import { ArtworksModule } from './modules/artworks/artworks.module';
+import { SalesModule } from './modules/sales/sales.module';
+import { ExhibitionsModule } from './modules/exhibitions/exhibitions.module';
+import { ReportsModule } from './modules/reports/reports.module';
 import { SeederModule } from './seeder/seeder.module';
 
 @Module({
@@ -32,6 +35,9 @@ import { SeederModule } from './seeder/seeder.module';
     AuthModule,
     ArtistsModule,
     ArtworksModule,
+    SalesModule,
+    ExhibitionsModule,
+    ReportsModule,
     SeederModule,
   ],
   controllers: [],
