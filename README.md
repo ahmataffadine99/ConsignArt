@@ -14,25 +14,25 @@ docker compose up -d --build
 ```
 
 L'application démarrera automatiquement sur **http://localhost:3000**.
-- **Documentation de l'API (Swagger)** : http://localhost:3000/api
-- **Interface Base de données (Adminer)** : http://localhost:8080 (Système: PostgreSQL, Serveur: db, Utilisateur: postgres, Mot de passe: postgres, Base: consignart)
+- **Documentation de l'API (Swagger)** : http://localhost:3000/api/docs
+- **Interface Base de données (Adminer)** : http://localhost:8080 (Système: PostgreSQL, Serveur: db, Utilisateur: consignart_user, Mot de passe: consignart_pass, Base: consignart)
 
-> **Note sur les Fixtures (Seeder)** : Dès que vous lancez l'application via Docker, un script de seeding intelligent (`SeederService`) s'exécute automatiquement. Il remplit la base de données avec 4 comptes utilisateurs (Admin, Gallery, Artist, Collector) et plusieurs œuvres associées à des artistes, pour vous permettre de tester immédiatement les requêtes !
+> **Note sur les Fixtures (Seeder)** : Dès que vous lancez l'application via Docker, un script de seeding intelligent (`SeederService`) s'exécute automatiquement. Il remplit la base de données avec des comptes utilisateurs (Admin, Gallery, Artist, Collector), des œuvres, des ventes et des expositions, pour vous permettre de tester immédiatement les requêtes !
 Le mot de passe pour tous les comptes de test est : `password123`.
 
 ---
 
 ## Fonctionnalités implémentées
 
-Ce dépôt contient la base de l'API et les premiers modules terminés :
+L'intégralité du cahier des charges fonctionnel a été implémentée :
 
 - **Configuration globale** : Dockerfile multi-stage, TypeORM avec PostgreSQL.
-- **Module Auth** : Inscription, connexion, et génération de Token JWT sécurisé.
-- **Module Users** : Gestion des utilisateurs et de leurs rôles (`admin`, `gallery`, `artist`, `collector`).
-- **Module Artists** : Profil public des artistes. Le profil est automatiquement rattaché au compte `User` de l'artiste.
-- **Module Artworks** : Gestion complète du catalogue d'œuvres d'art.
-
-*(Les modules `Sales`, `Exhibitions` et `Reports` seront ajoutés ultérieurement).*
+- **Module Auth & Users** : Inscription, connexion, rôles (`admin`, `gallery`, `artist`, `collector`), et génération de Token JWT sécurisé.
+- **Module Artists** : Profil public des artistes rattaché au compte `User`.
+- **Module Artworks** : Gestion complète du catalogue d'œuvres d'art (historique des statuts, limite de 50 œuvres actives par artiste).
+- **Module Sales** : Gestion des ventes, calcul automatisé des commissions (40/35/30%), facturation (Acheteur et Artiste) gérés via transaction TypeORM.
+- **Module Exhibitions** : Création d'expositions (bloquée sans œuvres) et gestion complète des prêts (loans) inter-galeries.
+- **Module Reports** : Tableaux de bord et statistiques pour les Galeries, Artistes et Administrateurs.
 
 ---
 
@@ -41,7 +41,7 @@ Ce dépôt contient la base de l'API et les premiers modules terminés :
 Pour respecter les meilleures pratiques architecturales et les contraintes du cahier des charges, de nombreux concepts avancés de NestJS ont été déployés de manière globale dans le dossier `src/common` :
 
 1. **Guards & Sécurité**
-   - **`JwtAuthGuard`** : Vérifie la validité du Token JWT sur toutes les routes protégées.
+   - **`JwtAuthGuard`** : Vérifie la validité du Token JWT.
    - **`RolesGuard`** : Limite l'accès à certains endpoints (ex: seul l'Admin peut supprimer un utilisateur).
    - **`OwnershipGuard`** : *(Guard métier)* Vérifie en base de données qu'une œuvre d'art appartient bien à l'utilisateur qui tente de la modifier. Un artiste ne peut pas modifier l'œuvre d'un autre artiste.
 
@@ -58,4 +58,4 @@ Pour respecter les meilleures pratiques architecturales et les contraintes du ca
    - **`NotSoldPipe`** *(Pipe de validation)* : Avant de modifier une œuvre, ce pipe s'assure qu'elle ne possède pas déjà le statut "Vendue". Si c'est le cas, il bloque immédiatement la requête pour protéger l'intégrité de l'œuvre.
 
 5. **Optimisation Base de Données**
-   - **`@Index()`** : Un index TypeORM a été placé sur la colonne `status` de l'entité `Artwork` afin d'accélérer drastiquement les futures requêtes de filtrage sur le catalogue public.
+   - **`@Index()`** : Des index TypeORM ont été placés sur les colonnes fréquemment interrogées (ex: `status` de l'entité `Artwork`, ou le `role` des utilisateurs) afin d'accélérer drastiquement les requêtes de filtrage.
