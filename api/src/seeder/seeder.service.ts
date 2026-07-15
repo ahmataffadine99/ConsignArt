@@ -2,6 +2,8 @@ import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { UsersService } from '../modules/users/users.service';
 import { ArtistsService } from '../modules/artists/artists.service';
 import { ArtworksService } from '../modules/artworks/artworks.service';
+import { SalesService } from '../modules/sales/sales.service';
+import { ExhibitionsService } from '../modules/exhibitions/exhibitions.service';
 import { Role } from '../modules/users/enums/role.enum';
 import { ArtworkStatus } from '../modules/artworks/enums/artwork-status.enum';
 
@@ -13,6 +15,8 @@ export class SeederService implements OnModuleInit {
     private readonly usersService: UsersService,
     private readonly artistsService: ArtistsService,
     private readonly artworksService: ArtworksService,
+    private readonly salesService: SalesService,
+    private readonly exhibitionsService: ExhibitionsService,
   ) {}
 
   async onModuleInit() {
@@ -40,7 +44,7 @@ export class SeederService implements OnModuleInit {
       role: Role.GALLERY,
     });
 
-    await this.usersService.create({
+    const userCollector = await this.usersService.create({
       email: 'collector@consignart.com',
       password: 'password123',
       role: Role.COLLECTOR,
@@ -80,7 +84,7 @@ export class SeederService implements OnModuleInit {
     // 4. Création des Œuvres
     this.logger.log('Création des œuvres d\'art...');
     
-    await this.artworksService.create(userPicasso.id, {
+    const aw1 = await this.artworksService.create({ userId: userPicasso.id, role: 'artist' }, {
       title: 'Guernica',
       description: 'Célèbre peinture murale cubiste',
       year: 1937,
@@ -89,9 +93,10 @@ export class SeederService implements OnModuleInit {
       price: 5000000,
       reservePrice: 4000000,
       status: ArtworkStatus.AVAILABLE,
+      artistId: userPicasso.id,
     });
 
-    await this.artworksService.create(userPicasso.id, {
+    const aw2 = await this.artworksService.create({ userId: userPicasso.id, role: 'artist' }, {
       title: 'Les Demoiselles d\'Avignon',
       description: 'Œuvre fondatrice du cubisme',
       year: 1907,
@@ -100,9 +105,10 @@ export class SeederService implements OnModuleInit {
       price: 2000000,
       reservePrice: 1500000,
       status: ArtworkStatus.AVAILABLE,
+      artistId: userPicasso.id,
     });
 
-    await this.artworksService.create(userDali.id, {
+    const aw3 = await this.artworksService.create({ userId: userDali.id, role: 'artist' }, {
       title: 'La Persistance de la mémoire',
       description: 'Les fameuses montres molles',
       year: 1931,
@@ -111,6 +117,81 @@ export class SeederService implements OnModuleInit {
       price: 3500000,
       reservePrice: 3000000,
       status: ArtworkStatus.AVAILABLE,
+      artistId: userDali.id,
+    });
+
+    const aw4 = await this.artworksService.create({ userId: userDali.id, role: 'artist' }, {
+      title: 'Le Grand Masturbateur',
+      description: 'Œuvre surréaliste',
+      year: 1929,
+      technique: 'Huile sur toile',
+      dimensions: { hauteur: 110, largeur: 150 },
+      price: 1500000,
+      reservePrice: 1000000,
+      status: ArtworkStatus.AVAILABLE,
+      artistId: userDali.id,
+    });
+
+    const aw5 = await this.artworksService.create({ userId: userPicasso.id, role: 'artist' }, {
+      title: 'Le Rêve',
+      description: 'Portrait de Marie-Thérèse Walter',
+      year: 1932,
+      technique: 'Huile sur toile',
+      dimensions: { hauteur: 130, largeur: 97 },
+      price: 8000000,
+      reservePrice: 7000000,
+      status: ArtworkStatus.AVAILABLE,
+      artistId: userPicasso.id,
+    });
+
+    const aw6 = await this.artworksService.create({ userId: userPicasso.id, role: 'artist' }, {
+      title: 'La Femme qui pleure',
+      description: 'Représentation de Dora Maar',
+      year: 1937,
+      technique: 'Huile sur toile',
+      dimensions: { hauteur: 60, largeur: 49 },
+      price: 4500000,
+      reservePrice: 4000000,
+      status: ArtworkStatus.AVAILABLE,
+      artistId: userPicasso.id,
+    });
+
+    // 5. Création des Ventes
+    this.logger.log('Création des ventes...');
+    await this.salesService.create({
+      artworkId: aw1.id,
+      buyerId: userCollector.id,
+      salePrice: 5200000,
+    });
+
+    await this.salesService.create({
+      artworkId: aw3.id,
+      buyerId: userCollector.id,
+      salePrice: 3600000,
+    });
+
+    await this.salesService.create({
+      artworkId: aw4.id,
+      buyerId: userCollector.id,
+      salePrice: 1600000,
+    });
+
+    // 6. Création des Expositions
+    this.logger.log('Création des expositions...');
+    await this.exhibitionsService.create(userGallery.id, {
+      name: 'Les Maîtres du 20ème siècle',
+      startDate: '2026-09-01T00:00:00Z',
+      endDate: '2026-10-31T00:00:00Z',
+      location: 'Grand Palais, Paris',
+      artworkIds: [aw2.id, aw5.id],
+    });
+
+    await this.exhibitionsService.create(userGallery.id, {
+      name: 'Rétrospective Picasso Virtuelle',
+      startDate: '2026-11-01T00:00:00Z',
+      endDate: '2026-12-31T00:00:00Z',
+      virtualLink: 'https://virtual.consignart.com/picasso',
+      artworkIds: [aw6.id],
     });
 
     this.logger.log('Fixtures insérées avec succès !');
