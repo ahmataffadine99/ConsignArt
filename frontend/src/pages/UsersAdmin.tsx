@@ -65,7 +65,11 @@ export const UsersAdmin: React.FC = () => {
                   }}
                   fullWidth
                 >
-                  {user.isActive ? 'Block Account' : 'Activate Account'}
+                  {user.isActive 
+                    ? 'Block Account' 
+                    : user.role === 'gallery' 
+                      ? 'Approve / Unblock' 
+                      : 'Unblock Account'}
                 </Button>
               )}
             </div>
