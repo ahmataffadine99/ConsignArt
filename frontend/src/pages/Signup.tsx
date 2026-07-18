@@ -79,7 +79,7 @@ export const Signup: React.FC = () => {
         </form>
         
         <div className="signup-footer">
-          <p>Already have an account? <Link to="/login" className="text-gradient" style={{ fontWeight: 'bold' }}>Sign In</text></Link></p>
+          <p>Already have an account? <Link to="/login" className="text-gradient" style={{ fontWeight: 'bold' }}>Sign In</Link></p>
         </div>
       </Card>
     </div>
