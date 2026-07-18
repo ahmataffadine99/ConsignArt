@@ -84,3 +84,12 @@ export const reportsService = {
   getAdminReport: async () => fetchApi(`/reports/admin`),
 };
 
+export const salesService = {
+  create: async (data: { artworkId: string; buyerId: string; salePrice: number }) => {
+    return fetchApi('/sales', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+};
+

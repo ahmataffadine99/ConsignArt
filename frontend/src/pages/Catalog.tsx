@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { artworksService } from '../services/api';
+import { artworksService, salesService } from '../services/api';
 import './Catalog.css';
 
 export const Catalog: React.FC = () => {
@@ -37,6 +37,21 @@ export const Catalog: React.FC = () => {
     }
   };
 
+  const handleBuy = async (artwork: any) => {
+    if (!window.confirm(`Buy ${artwork.title} for €${artwork.price}?`)) return;
+    try {
+      await salesService.create({
+        artworkId: artwork.id,
+        buyerId: user.id,
+        salePrice: parseFloat(artwork.price),
+      });
+      alert('Purchase successful!');
+      fetchArtworks();
+    } catch (err: any) {
+      alert(err.message || 'Failed to complete purchase.');
+    }
+  };
+
   if (loading) return <div className="text-center">Loading catalog...</div>;
 
   return (
@@ -65,6 +80,11 @@ export const Catalog: React.FC = () => {
               <p className="price">€{artwork.price}</p>
               <div className="artwork-actions">
                 <Button fullWidth>View Details</Button>
+                {user && user.role === 'collector' && artwork.status === 'AVAILABLE' && (
+                  <Button variant="secondary" fullWidth style={{ marginTop: '0.5rem', borderColor: '#10b981', color: '#10b981' }} onClick={() => handleBuy(artwork)}>
+                    Buy Now
+                  </Button>
+                )}
                 {user && (user.role === 'admin' || user.id === artwork.artist?.id) && (
                   <Button variant="secondary" fullWidth style={{ marginTop: '0.5rem', borderColor: '#ef4444', color: '#ef4444' }} onClick={() => handleDelete(artwork.id)}>
                     Delete
