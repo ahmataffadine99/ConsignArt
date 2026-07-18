@@ -93,3 +93,11 @@ export const salesService = {
   }
 };
 
+export const exhibitionsService = {
+  getAll: async () => fetchApi('/exhibitions'),
+  create: async (data: any) => fetchApi('/exhibitions', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+};
+

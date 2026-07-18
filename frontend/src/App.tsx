@@ -5,6 +5,7 @@ import { Signup } from './pages/Signup';
 import { Dashboard } from './pages/Dashboard';
 import { Catalog } from './pages/Catalog';
 import { CreateArtwork } from './pages/CreateArtwork';
+import { Exhibitions } from './pages/Exhibitions';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/artworks/new" element={<CreateArtwork />} />
+          <Route path="/exhibitions" element={<Exhibitions />} />
         </Routes>
       </div>
     </>
