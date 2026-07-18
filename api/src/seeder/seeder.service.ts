@@ -100,6 +100,7 @@ export class SeederService implements OnModuleInit {
       reservePrice: 800,
       status: ArtworkStatus.AVAILABLE,
       artistId: userPicasso.id,
+      imageUrl: '/images/cubist.png',
     });
 
     // Œuvre 2 : Prix moyen pour tester la commission de 35% (<= 20000)
@@ -112,6 +113,7 @@ export class SeederService implements OnModuleInit {
       reservePrice: 8000,
       status: ArtworkStatus.AVAILABLE,
       artistId: userPicasso.id,
+      imageUrl: '/images/portrait.png',
     });
 
     // Œuvre 3 : Prix haut pour tester la commission de 30% (> 20000)
@@ -124,6 +126,7 @@ export class SeederService implements OnModuleInit {
       reservePrice: 25000,
       status: ArtworkStatus.AVAILABLE,
       artistId: userDali.id,
+      imageUrl: '/images/surreal.png',
     });
 
     // Œuvre 4 : Pour tester les prêts
@@ -136,6 +139,7 @@ export class SeederService implements OnModuleInit {
       reservePrice: 12000,
       status: ArtworkStatus.AVAILABLE,
       artistId: userDali.id,
+      imageUrl: '/images/bronze.png',
     });
 
     // 5. Création des Ventes (Seulement 1 vente pour voir les chiffres facilement)

@@ -16,8 +16,15 @@
   font-family: var(--font-family);
   font-size: 1rem;
   color: var(--color-primary);
+  background-color: rgba(24, 24, 27, 0.8);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+select.input-field option {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
 }
 
 .input-field:focus {
