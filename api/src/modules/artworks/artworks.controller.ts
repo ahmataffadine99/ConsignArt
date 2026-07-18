@@ -64,8 +64,8 @@ export class ArtworksController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard, OwnershipGuard)
+  @Roles(Role.ADMIN, Role.ARTIST, Role.GALLERY)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete an artwork' })
   remove(@Param('id') id: string) {

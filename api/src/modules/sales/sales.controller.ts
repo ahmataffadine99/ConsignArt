@@ -15,7 +15,7 @@ export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
   @Post()
-  @Roles(Role.GALLERY)
+  @Roles(Role.GALLERY, Role.COLLECTOR)
   @ApiOperation({ summary: 'Create a new sale for an artwork' })
   create(@Body() createSaleDto: CreateSaleDto) {
     return this.salesService.create(createSaleDto);

@@ -32,8 +32,8 @@ export const Catalog: React.FC = () => {
     try {
       await artworksService.delete(id);
       fetchArtworks();
-    } catch (err) {
-      alert('Failed to delete artwork');
+    } catch (err: any) {
+      alert(typeof err.message === 'string' ? err.message : JSON.stringify(err.message) || 'Failed to delete artwork');
     }
   };
 
@@ -87,7 +87,7 @@ export const Catalog: React.FC = () => {
                     Buy Now
                   </Button>
                 )}
-                {user && (user.role === 'admin' || user.id === artwork.artist?.id) && (
+                {user && (user.role === 'admin' || user.id === artwork.artist?.userId) && (
                   <Button variant="secondary" fullWidth style={{ marginTop: '0.5rem', borderColor: '#ef4444', color: '#ef4444' }} onClick={() => handleDelete(artwork.id)}>
                     Delete
                   </Button>

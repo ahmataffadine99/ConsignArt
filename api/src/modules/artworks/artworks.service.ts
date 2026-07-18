@@ -90,6 +90,14 @@ export class ArtworksService {
 
   async remove(id: string): Promise<void> {
     const artwork = await this.findOne(id);
+    
+    if (artwork.status === ArtworkStatus.SOLD) {
+      throw new BadRequestException("Une œuvre vendue ne peut pas être supprimée.");
+    }
+    if (artwork.status === ArtworkStatus.ON_LOAN) {
+      throw new BadRequestException("Une œuvre actuellement en exposition ne peut pas être supprimée.");
+    }
+
     await this.artworkRepository.remove(artwork);
   }
 }

@@ -25,6 +25,10 @@ export class ExhibitionsService {
   ) {}
 
   async create(galleryId: string, dto: CreateExhibitionDto): Promise<Exhibition> {
+    if (new Date(dto.startDate) > new Date(dto.endDate)) {
+      throw new BusinessRuleViolationException('La date de fin ne peut pas être antérieure à la date de début.');
+    }
+
     const artworks = await this.artworkRepository.findBy({ id: In(dto.artworkIds) });
 
     if (artworks.length !== dto.artworkIds.length) {
@@ -103,6 +107,10 @@ export class ExhibitionsService {
   }
 
   async createLoan(fromGalleryId: string, dto: CreateLoanDto): Promise<Loan> {
+    if (new Date(dto.startDate) > new Date(dto.endDate)) {
+      throw new BusinessRuleViolationException('La date de fin ne peut pas être antérieure à la date de début.');
+    }
+
     const artwork = await this.artworkRepository.findOne({ where: { id: dto.artworkId } });
 
     if (!artwork) {

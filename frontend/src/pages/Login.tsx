@@ -62,14 +62,7 @@ export const Login: React.FC = () => {
           </Button>
         </form>
         
-        <div className="login-footer">
-          <p>Demo accounts:</p>
-          <div className="demo-accounts">
-            <span>Admin: admin@consignart.com</span>
-            <span>Gallery: gallery@consignart.com</span>
-            <span>Artist: artist@consignart.com</span>
-          </div>
-        </div>
+
       </Card>
     </div>
   );

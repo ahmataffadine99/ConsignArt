@@ -21,7 +21,7 @@ export const Dashboard: React.FC = () => {
         } else if (user.role === 'artist') {
           result = await reportsService.getMyArtistReport();
         }
-        setData(result);
+        setData(result.data || result);
       } catch (error) {
         console.error('Failed to fetch stats', error);
       } finally {
