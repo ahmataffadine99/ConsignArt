@@ -17,6 +17,16 @@ L'application démarrera automatiquement sur **http://localhost:3000**.
 - **Documentation de l'API (Swagger)** : http://localhost:3000/api/docs
 - **Interface Base de données (Adminer)** : http://localhost:8080 (Système: PostgreSQL, Serveur: db, Utilisateur: consignart_user, Mot de passe: consignart_pass, Base: consignart)
 
+### Lancement du Frontend (React / Vite)
+Un client frontend a été développé (Bonus) avec React et Vite.
+1. Ouvrez un nouveau terminal et naviguez dans le dossier `frontend` :
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+2. L'interface graphique de ConsignArt sera accessible sur **http://localhost:5173**.
+
 > **Note sur les Fixtures (Seeder)** : Dès que vous lancez l'application via Docker, un script de seeding intelligent (`SeederService`) s'exécute automatiquement. Il remplit la base de données avec des comptes utilisateurs (Admin, Gallery, Artist, Collector), des œuvres, des ventes et des expositions, pour vous permettre de tester immédiatement les requêtes !
 Le mot de passe pour tous les comptes de test est : `password123`.
 
@@ -39,6 +49,7 @@ L'intégralité du cahier des charges fonctionnel a été implémentée :
 - **Module Sales** : Gestion des ventes, calcul automatisé des commissions (40/35/30%), facturation (Acheteur et Artiste) gérés via transaction TypeORM.
 - **Module Exhibitions** : Création d'expositions (bloquée sans œuvres) et gestion complète des prêts (loans) inter-galeries.
 - **Module Reports** : Tableaux de bord et statistiques pour les Galeries, Artistes et Administrateurs.
+- **Bonus Frontend** : Application cliente React/Vite complète avec interface de connexion, tableau de bord personnalisé par rôle et catalogue d'œuvres (Vanilla CSS, Glassmorphism).
 
 ---
 
