@@ -101,3 +101,11 @@ export const exhibitionsService = {
   }),
 };
 
+export const usersService = {
+  getAll: async () => fetchApi('/users'),
+  update: async (id: string, data: any) => fetchApi(`/users/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  }),
+};
+

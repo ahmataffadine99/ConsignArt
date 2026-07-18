@@ -1,0 +1,60 @@
+.users-admin-container {
+  padding: 1rem 0;
+  animation: fadeIn 0.4s ease;
+}
+
+.users-admin-header {
+  margin-bottom: 2rem;
+}
+
+.users-admin-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.user-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-info h3 {
+  font-size: 1.1rem;
+  margin: 0;
+  word-break: break-all;
+}
+
+.role-badge {
+  align-self: flex-start;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.role-admin { background-color: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.role-gallery { background-color: rgba(16, 185, 129, 0.2); color: #10b981; }
+.role-artist { background-color: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+.role-collector { background-color: rgba(168, 85, 247, 0.2); color: #a855f7; }
+
+.user-status-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.status-active { color: #10b981; }
+.status-inactive { color: #ef4444; }

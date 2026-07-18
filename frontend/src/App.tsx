@@ -6,6 +6,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Catalog } from './pages/Catalog';
 import { CreateArtwork } from './pages/CreateArtwork';
 import { Exhibitions } from './pages/Exhibitions';
+import { UsersAdmin } from './pages/UsersAdmin';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/artworks/new" element={<CreateArtwork />} />
           <Route path="/exhibitions" element={<Exhibitions />} />
+          <Route path="/admin/users" element={<UsersAdmin />} />
         </Routes>
       </div>
     </>

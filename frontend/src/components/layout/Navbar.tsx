@@ -5,8 +5,10 @@ import './Navbar.css';
 
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
-  // Basic mock auth check for now
-  const isAuthenticated = !!localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+  const isAuthenticated = !!token;
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -26,6 +28,9 @@ export const Navbar: React.FC = () => {
               <Link to="/dashboard" className="nav-link">Dashboard</Link>
               <Link to="/catalog" className="nav-link">Catalog</Link>
               <Link to="/exhibitions" className="nav-link">Exhibitions</Link>
+              {user && user.role === 'admin' && (
+                <Link to="/admin/users" className="nav-link" style={{ color: '#ef4444' }}>Users</Link>
+              )}
               <button onClick={handleLogout} className="logout-btn">
                 <LogOut size={18} />
                 Logout
