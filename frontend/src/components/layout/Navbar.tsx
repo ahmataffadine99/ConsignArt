@@ -32,7 +32,10 @@ export const Navbar: React.FC = () => {
               </button>
             </>
           ) : (
-            <Link to="/login" className="nav-link">Login</Link>
+            <>
+              <Link to="/login" className="nav-link">Login</Link>
+              <Link to="/signup" className="nav-link" style={{ fontWeight: 'bold', color: 'var(--color-primary)' }}>Sign Up</Link>
+            </>
           )}
         </div>
       </div>
