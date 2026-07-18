@@ -53,6 +53,12 @@ export const authService = {
     }
     return authData;
   },
+  register: async (userData: any) => {
+    return fetchApi('/users', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
+  },
 };
 
 export const artworksService = {
