@@ -126,6 +126,18 @@ export class SeederService implements OnModuleInit {
       artistId: userDali.id,
     });
 
+    // Œuvre 4 : Pour tester les prêts
+    const aw4 = await this.artworksService.create({ userId: userDali.id, role: 'artist' }, {
+      title: 'Sculpture Bronze',
+      description: 'Idéal pour montrer le système de prêt',
+      year: 1950,
+      technique: 'Bronze',
+      price: 15000,
+      reservePrice: 12000,
+      status: ArtworkStatus.AVAILABLE,
+      artistId: userDali.id,
+    });
+
     // 5. Création des Ventes (Seulement 1 vente pour voir les chiffres facilement)
     this.logger.log('Création des ventes...');
     await this.salesService.create({
@@ -146,7 +158,7 @@ export class SeederService implements OnModuleInit {
 
     this.logger.log('Création des prêts (Loans)...');
     await this.exhibitionsService.createLoan(userGallery.id, {
-      artworkId: aw2.id,
+      artworkId: aw4.id,
       toGalleryId: userGallery2.id,
       startDate: '2027-01-01T00:00:00Z',
       endDate: '2027-02-01T00:00:00Z',
