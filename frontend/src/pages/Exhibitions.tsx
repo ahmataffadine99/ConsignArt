@@ -80,6 +80,8 @@ export const Exhibitions: React.FC = () => {
     } catch (err: any) {
       alert(err.message || 'Failed to create exhibition.');
     }
+  };
+
   const handleCreateLoan = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
