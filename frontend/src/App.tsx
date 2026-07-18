@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Login } from './pages/Login';
+import { Dashboard } from './pages/Dashboard';
+import { Catalog } from './pages/Catalog';
 
 function App() {
   return (
@@ -17,8 +19,8 @@ function App() {
             </div>
           } />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<div>Dashboard (Coming soon)</div>} />
-          <Route path="/catalog" element={<div>Catalog (Coming soon)</div>} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/catalog" element={<Catalog />} />
         </Routes>
       </div>
     </>

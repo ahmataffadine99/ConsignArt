@@ -30,8 +30,6 @@ export const authService = {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    // Assuming backend returns { accessToken, user } 
-    // Wait, typical NestJS auth might return access_token. Let's store both.
     if (data.accessToken || data.access_token) {
       localStorage.setItem('token', data.accessToken || data.access_token);
       if (data.user) {
@@ -41,3 +39,16 @@ export const authService = {
     return data;
   },
 };
+
+export const artworksService = {
+  getAll: async () => {
+    return fetchApi('/artworks');
+  }
+};
+
+export const reportsService = {
+  getGalleryReport: async (galleryId: string) => fetchApi(`/reports/gallery/${galleryId}`),
+  getMyArtistReport: async () => fetchApi(`/reports/artist/me`),
+  getAdminReport: async () => fetchApi(`/reports/admin`),
+};
+
