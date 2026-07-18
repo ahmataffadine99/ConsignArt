@@ -7,7 +7,7 @@ export class Artwork {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ default: 'Untitled' })
   title: string;
 
   @Column({ type: 'text' })
