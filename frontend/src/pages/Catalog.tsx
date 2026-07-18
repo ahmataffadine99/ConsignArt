@@ -79,7 +79,9 @@ export const Catalog: React.FC = () => {
               <p className="artist-name">{artwork.artist?.firstName} {artwork.artist?.lastName}</p>
               <p className="price">€{artwork.price}</p>
               <div className="artwork-actions">
-                <Button fullWidth>View Details</Button>
+                <Link to={`/artworks/${artwork.id}`} style={{ textDecoration: 'none' }}>
+                  <Button fullWidth>View Details</Button>
+                </Link>
                 {user && user.role === 'collector' && artwork.status === 'AVAILABLE' && (
                   <Button variant="secondary" fullWidth style={{ marginTop: '0.5rem', borderColor: '#10b981', color: '#10b981' }} onClick={() => handleBuy(artwork)}>
                     Buy Now

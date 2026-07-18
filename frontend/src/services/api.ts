@@ -71,6 +71,12 @@ export const artworksService = {
       body: JSON.stringify(data),
     });
   },
+  getById: async (id: string) => {
+    return fetchApi(`/artworks/${id}`);
+  },
+  getHistory: async (id: string) => {
+    return fetchApi(`/artworks/${id}/history`);
+  },
   delete: async (id: string) => {
     return fetchApi(`/artworks/${id}`, {
       method: 'DELETE',
