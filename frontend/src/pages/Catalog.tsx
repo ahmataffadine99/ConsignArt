@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { artworksService } from '../services/api';
@@ -7,29 +8,49 @@ import './Catalog.css';
 export const Catalog: React.FC = () => {
   const [artworks, setArtworks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+
+  const fetchArtworks = async () => {
+    try {
+      const data = await artworksService.getAll();
+      setArtworks(Array.isArray(data) ? data : data.data || []);
+    } catch (error) {
+      console.error('Failed to fetch catalog', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchArtworks = async () => {
-      try {
-        const data = await artworksService.getAll();
-        // Assuming data is an array of artworks or data.data
-        setArtworks(Array.isArray(data) ? data : data.data || []);
-      } catch (error) {
-        console.error('Failed to fetch catalog', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchArtworks();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this artwork?')) return;
+    try {
+      await artworksService.delete(id);
+      fetchArtworks();
+    } catch (err) {
+      alert('Failed to delete artwork');
+    }
+  };
 
   if (loading) return <div className="text-center">Loading catalog...</div>;
 
   return (
     <div className="catalog-container">
-      <div className="catalog-header">
-        <h2 className="text-gradient">Art Catalog</h2>
-        <p>Discover and acquire contemporary masterpieces.</p>
+      <div className="catalog-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <h2 className="text-gradient">Art Catalog</h2>
+          <p>Discover and acquire contemporary masterpieces.</p>
+        </div>
+        {user && (user.role === 'artist' || user.role === 'gallery') && (
+          <Link to="/artworks/new">
+            <Button>+ Add Artwork</Button>
+          </Link>
+        )}
       </div>
 
       <div className="catalog-grid">
@@ -44,6 +65,11 @@ export const Catalog: React.FC = () => {
               <p className="price">€{artwork.price}</p>
               <div className="artwork-actions">
                 <Button fullWidth>View Details</Button>
+                {user && (user.role === 'admin' || user.id === artwork.artist?.id) && (
+                  <Button variant="secondary" fullWidth style={{ marginTop: '0.5rem', borderColor: '#ef4444', color: '#ef4444' }} onClick={() => handleDelete(artwork.id)}>
+                    Delete
+                  </Button>
+                )}
               </div>
             </div>
           </Card>

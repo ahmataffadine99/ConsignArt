@@ -64,6 +64,17 @@ export const authService = {
 export const artworksService = {
   getAll: async () => {
     return fetchApi('/artworks');
+  },
+  create: async (data: any) => {
+    return fetchApi('/artworks', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+  delete: async (id: string) => {
+    return fetchApi(`/artworks/${id}`, {
+      method: 'DELETE',
+    });
   }
 };
 
