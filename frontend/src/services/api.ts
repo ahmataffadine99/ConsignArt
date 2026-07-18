@@ -26,17 +26,32 @@ export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
 
 export const authService = {
   login: async (email: string, password: string) => {
-    const data = await fetchApi('/auth/login', {
+    const response = await fetchApi('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    if (data.accessToken || data.access_token) {
-      localStorage.setItem('token', data.accessToken || data.access_token);
-      if (data.user) {
-         localStorage.setItem('user', JSON.stringify(data.user));
+    
+    // Le backend avec TransformInterceptor renvoie { data: { access_token: ... }, meta, timestamp }
+    const authData = response.data || response;
+    const token = authData.accessToken || authData.access_token;
+    
+    if (token) {
+      localStorage.setItem('token', token);
+      
+      // Decode JWT payload to get user info
+      try {
+        const payloadBase64 = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payloadBase64));
+        const user = {
+          id: decodedPayload.sub,
+          role: decodedPayload.role,
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        console.error('Failed to parse JWT token');
       }
     }
-    return data;
+    return authData;
   },
 };
 
