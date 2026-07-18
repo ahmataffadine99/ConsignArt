@@ -7,6 +7,7 @@ import './Exhibitions.css';
 
 export const Exhibitions: React.FC = () => {
   const [exhibitions, setExhibitions] = useState<any[]>([]);
+  const [loans, setLoans] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
   // For creation form
@@ -18,6 +19,14 @@ export const Exhibitions: React.FC = () => {
   const [availableArtworks, setAvailableArtworks] = useState<any[]>([]);
   const [selectedArtworks, setSelectedArtworks] = useState<string[]>([]);
 
+  // For loan creation form
+  const [showLoanForm, setShowLoanForm] = useState(false);
+  const [loanArtworkId, setLoanArtworkId] = useState('');
+  const [toGalleryId, setToGalleryId] = useState('');
+  const [loanStartDate, setLoanStartDate] = useState('');
+  const [loanEndDate, setLoanEndDate] = useState('');
+  const [conditions, setConditions] = useState('');
+
   const userStr = localStorage.getItem('user');
   const user = userStr ? JSON.parse(userStr) : null;
 
@@ -25,6 +34,8 @@ export const Exhibitions: React.FC = () => {
     try {
       const data = await exhibitionsService.getAll();
       setExhibitions(Array.isArray(data) ? data : data.data || []);
+      const loansData = await exhibitionsService.getAllLoans();
+      setLoans(Array.isArray(loansData) ? loansData : loansData.data || []);
     } catch (err) {
       console.error(err);
     } finally {
@@ -69,6 +80,22 @@ export const Exhibitions: React.FC = () => {
     } catch (err: any) {
       alert(err.message || 'Failed to create exhibition.');
     }
+  const handleCreateLoan = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await exhibitionsService.createLoan({
+        artworkId: loanArtworkId,
+        toGalleryId,
+        startDate: loanStartDate,
+        endDate: loanEndDate,
+        conditions
+      });
+      setShowLoanForm(false);
+      setLoanArtworkId(''); setToGalleryId(''); setLoanStartDate(''); setLoanEndDate(''); setConditions('');
+      fetchExhibitions();
+    } catch (err: any) {
+      alert(err.message || 'Failed to create loan.');
+    }
   };
 
   if (loading) return <div className="text-center">Loading exhibitions...</div>;
@@ -81,9 +108,14 @@ export const Exhibitions: React.FC = () => {
           <p>Upcoming and ongoing art shows.</p>
         </div>
         {user && user.role === 'gallery' && (
-          <Button onClick={() => setShowForm(!showForm)}>
-            {showForm ? 'Cancel' : '+ New Exhibition'}
-          </Button>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <Button onClick={() => { setShowForm(!showForm); setShowLoanForm(false); }}>
+              {showForm ? 'Cancel' : '+ New Exhibition'}
+            </Button>
+            <Button variant="outline" onClick={() => { setShowLoanForm(!showLoanForm); setShowForm(false); }}>
+              {showLoanForm ? 'Cancel' : '+ New Loan'}
+            </Button>
+          </div>
         )}
       </div>
 
@@ -138,6 +170,64 @@ export const Exhibitions: React.FC = () => {
           </Card>
         ))}
         {exhibitions.length === 0 && <p>No exhibitions currently.</p>}
+      </div>
+
+      <div className="exhibitions-header" style={{ marginTop: '2rem' }}>
+        <h2 className="text-gradient">Loans (Prêts Inter-Galeries)</h2>
+      </div>
+
+      {showLoanForm && (
+        <Card className="exhibition-form-card">
+          <h3>Create Loan</h3>
+          <form onSubmit={handleCreateLoan}>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <div style={{ flex: 1 }}>
+                <label className="input-label">Artwork to Lend</label>
+                <select 
+                  className="input-field" 
+                  value={loanArtworkId} 
+                  onChange={e => setLoanArtworkId(e.target.value)} 
+                  required
+                >
+                  <option value="">Select an available artwork...</option>
+                  {availableArtworks.map(art => (
+                    <option key={art.id} value={art.id}>{art.title} (€{art.price})</option>
+                  ))}
+                </select>
+              </div>
+              <Input label="To Gallery (ID)" value={toGalleryId} onChange={e => setToGalleryId(e.target.value)} required />
+            </div>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+              <Input label="Start Date" type="date" value={loanStartDate} onChange={e => setLoanStartDate(e.target.value)} required />
+              <Input label="End Date" type="date" value={loanEndDate} onChange={e => setLoanEndDate(e.target.value)} required />
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+              <label className="input-label">Conditions</label>
+              <textarea 
+                className="input-field" 
+                value={conditions} 
+                onChange={e => setConditions(e.target.value)} 
+                rows={3} 
+                style={{ width: '100%' }}
+              />
+            </div>
+            <Button type="submit" fullWidth style={{ marginTop: '1rem' }}>Lend Artwork</Button>
+          </form>
+        </Card>
+      )}
+
+      <div className="exhibitions-list">
+        {loans.map((loan: any) => (
+          <Card key={loan.id} className="exhibition-card">
+            <h3>Loan: {loan.artwork?.title || 'Unknown Artwork'}</h3>
+            <p className="exhibition-dates">{new Date(loan.startDate).toLocaleDateString()} - {new Date(loan.endDate).toLocaleDateString()}</p>
+            <p className="exhibition-location">Status: {loan.status}</p>
+            <p className="exhibition-gallery">From: {loan.fromGallery?.email || loan.fromGalleryId}</p>
+            <p className="exhibition-gallery">To: {loan.toGallery?.email || loan.toGalleryId}</p>
+            {loan.conditions && <p><strong>Conditions:</strong> {loan.conditions}</p>}
+          </Card>
+        ))}
+        {loans.length === 0 && <p>No active loans.</p>}
       </div>
     </div>
   );

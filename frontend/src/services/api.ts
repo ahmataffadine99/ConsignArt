@@ -113,6 +113,11 @@ export const exhibitionsService = {
     method: 'POST',
     body: JSON.stringify(data),
   }),
+  getAllLoans: async () => fetchApi('/exhibitions/loans/all'),
+  createLoan: async (data: any) => fetchApi('/exhibitions/loans', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
 };
 
 export const usersService = {
