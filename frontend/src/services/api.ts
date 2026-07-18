@@ -99,6 +99,14 @@ export const salesService = {
   }
 };
 
+export const artistsService = {
+  getAll: async () => fetchApi('/artists'),
+  create: async (data: any) => fetchApi('/artists', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+};
+
 export const exhibitionsService = {
   getAll: async () => fetchApi('/exhibitions'),
   create: async (data: any) => fetchApi('/exhibitions', {

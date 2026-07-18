@@ -8,6 +8,8 @@ export class Artwork {
   id: string;
 
   @Column()
+  title: string;
+
   @Column({ type: 'text' })
   description: string;
 
