@@ -32,6 +32,9 @@ export class GalleryReportDto {
   @ApiProperty({ example: 250000.00 })
   totalRevenue: number;
 
+  @ApiProperty({ example: 45000.00 })
+  totalCommissions: number;
+
   @ApiProperty({ type: [TopArtistDto] })
   topArtists: TopArtistDto[];
 

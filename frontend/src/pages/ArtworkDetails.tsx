@@ -41,9 +41,16 @@ export const ArtworkDetails: React.FC = () => {
 
   return (
     <div className="details-container">
-      <Button variant="secondary" onClick={() => navigate(-1)} style={{ marginBottom: '1.5rem' }}>
-        &larr; Back to Catalog
-      </Button>
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
+        <Button variant="secondary" onClick={() => navigate(-1)}>
+          &larr; Back to Catalog
+        </Button>
+        {user && artwork.status === 'AVAILABLE' && (user.id === artwork.artist?.userId || user.role === 'gallery') && (
+          <Button variant="secondary" onClick={() => navigate(`/artworks/${artwork.id}/edit`)} style={{ borderColor: '#3b82f6', color: '#3b82f6' }}>
+            Edit Artwork
+          </Button>
+        )}
+      </div>
 
       <div className="details-layout">
         <Card className="details-image-card">

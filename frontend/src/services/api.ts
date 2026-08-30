@@ -31,14 +31,12 @@ export const authService = {
       body: JSON.stringify({ email, password }),
     });
     
-    // Le backend avec TransformInterceptor renvoie { data: { access_token: ... }, meta, timestamp }
     const authData = response.data || response;
     const token = authData.accessToken || authData.access_token;
     
     if (token) {
       localStorage.setItem('token', token);
       
-      // Decode JWT payload to get user info
       try {
         const payloadBase64 = token.split('.')[1];
         const decodedPayload = JSON.parse(atob(payloadBase64));
@@ -76,6 +74,12 @@ export const artworksService = {
   },
   getHistory: async (id: string) => {
     return fetchApi(`/artworks/${id}/history`);
+  },
+  update: async (id: string, data: any) => {
+    return fetchApi(`/artworks/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
   },
   delete: async (id: string) => {
     return fetchApi(`/artworks/${id}`, {

@@ -8,6 +8,7 @@ import { CreateArtwork } from './pages/CreateArtwork';
 import { Exhibitions } from './pages/Exhibitions';
 import { UsersAdmin } from './pages/UsersAdmin';
 import { ArtworkDetails } from './pages/ArtworkDetails';
+import { EditArtwork } from './pages/EditArtwork';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/artworks/new" element={<CreateArtwork />} />
           <Route path="/artworks/:id" element={<ArtworkDetails />} />
+          <Route path="/artworks/:id/edit" element={<EditArtwork />} />
           <Route path="/exhibitions" element={<Exhibitions />} />
           <Route path="/admin/users" element={<UsersAdmin />} />
         </Routes>

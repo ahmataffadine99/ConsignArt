@@ -48,6 +48,7 @@ export const Dashboard: React.FC = () => {
         {user.role === 'gallery' && data && (
           <>
             <Card><h3>Total Revenue</h3><p className="stat-value">€{data.totalRevenue}</p></Card>
+            <Card><h3>Total Commissions</h3><p className="stat-value">€{data.totalCommissions || 0}</p></Card>
             <Card><h3>Rotation Rate</h3><p className="stat-value">{data.rotationRate * 100}%</p></Card>
           </>
         )}

@@ -87,7 +87,14 @@ export const Catalog: React.FC = () => {
                     Buy Now
                   </Button>
                 )}
-                {user && (user.role === 'admin' || user.id === artwork.artist?.userId) && (
+                {user && artwork.status === 'AVAILABLE' && (user.id === artwork.artist?.userId || user.role === 'gallery') && (
+                  <Link to={`/artworks/${artwork.id}/edit`} style={{ textDecoration: 'none' }}>
+                    <Button variant="secondary" fullWidth style={{ marginTop: '0.5rem', borderColor: '#3b82f6', color: '#3b82f6' }}>
+                      Edit
+                    </Button>
+                  </Link>
+                )}
+                {user && (user.role === 'admin' || user.id === artwork.artist?.userId || user.role === 'gallery') && (
                   <Button variant="secondary" fullWidth style={{ marginTop: '0.5rem', borderColor: '#ef4444', color: '#ef4444' }} onClick={() => handleDelete(artwork.id)}>
                     Delete
                   </Button>

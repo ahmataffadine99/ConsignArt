@@ -62,6 +62,7 @@ export class ReportsService {
       .map(([month, data]) => ({ month, ...data }));
 
     const totalRevenue = sales.reduce((sum, s) => sum + Number(s.salePrice), 0);
+    const totalCommissions = sales.reduce((sum, s) => sum + Number(s.commissionAmount), 0);
 
     const artistSalesMap = new Map<string, { artistName: string; totalSales: number; totalRevenue: number }>();
     for (const sale of sales) {
@@ -89,7 +90,7 @@ export class ReportsService {
       ? Number((soldCount / allArtworks.length).toFixed(2))
       : 0;
 
-    return { salesPerMonth, totalRevenue, topArtists, rotationRate };
+    return { salesPerMonth, totalRevenue, totalCommissions, topArtists, rotationRate };
   }
 
   async getArtistReport(artistUserId: string): Promise<ArtistReportDto> {
