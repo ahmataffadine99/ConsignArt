@@ -22,7 +22,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.GALLERY)
   @ApiBearerAuth()
   @ApiOperation({ summary: "Lister tous les utilisateurs (Réservé aux Admins)" })
   async findAll() {
