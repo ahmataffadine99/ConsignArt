@@ -105,7 +105,7 @@ export class ReportsService {
       .where('artwork.artistId = :artistId', { artistId: artist.id })
       .getMany();
 
-    const totalRevenue = sales.reduce((sum, s) => sum + Number(s.salePrice), 0);
+    const totalRevenue = sales.reduce((sum, s) => sum + Number(s.artistBalance), 0);
     const totalCommissions = sales.reduce((sum, s) => sum + Number(s.commissionAmount), 0);
 
     const availableArtworks = await this.artworkRepository.count({
