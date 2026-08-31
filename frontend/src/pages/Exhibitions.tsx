@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { exhibitionsService, artworksService } from '../services/api';
+import { exhibitionsService, artworksService, usersService } from '../services/api';
 import './Exhibitions.css';
 
 export const Exhibitions: React.FC = () => {
@@ -26,6 +26,7 @@ export const Exhibitions: React.FC = () => {
   const [loanStartDate, setLoanStartDate] = useState('');
   const [loanEndDate, setLoanEndDate] = useState('');
   const [conditions, setConditions] = useState('');
+  const [galleries, setGalleries] = useState<any[]>([]);
 
   const userStr = localStorage.getItem('user');
   const user = userStr ? JSON.parse(userStr) : null;
@@ -50,6 +51,10 @@ export const Exhibitions: React.FC = () => {
         const arts = Array.isArray(data) ? data : data.data || [];
         // Only show AVAILABLE artworks to add to exhibition
         setAvailableArtworks(arts.filter((a: any) => a.status === 'AVAILABLE'));
+      });
+      usersService.getAll().then(data => {
+        const allUsers = Array.isArray(data) ? data : data.data || [];
+        setGalleries(allUsers.filter((u: any) => u.role === 'gallery' && u.id !== user.id));
       });
     }
   }, [user]);
@@ -197,7 +202,20 @@ export const Exhibitions: React.FC = () => {
                   ))}
                 </select>
               </div>
-              <Input label="To Gallery (ID)" value={toGalleryId} onChange={e => setToGalleryId(e.target.value)} required />
+              <div style={{ flex: 1 }}>
+                <label className="input-label">To Gallery</label>
+                <select 
+                  className="input-field" 
+                  value={toGalleryId} 
+                  onChange={e => setToGalleryId(e.target.value)} 
+                  required
+                >
+                  <option value="">Select a gallery...</option>
+                  {galleries.map(g => (
+                    <option key={g.id} value={g.id}>{g.email || g.id}</option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               <Input label="Start Date" type="date" value={loanStartDate} onChange={e => setLoanStartDate(e.target.value)} required />
