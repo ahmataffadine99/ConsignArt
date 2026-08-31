@@ -4,26 +4,32 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 
-describe('AppController (e2e)', () => {
+describe('Artworks Endpoint (e2e)', () => {
   let app: INestApplication<App>;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.setGlobalPrefix('api/v1'); // Le même préfixe que dans main.ts
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/api/v1/artworks (GET) devrait retourner un tableau (Endpoint complet)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/api/v1/artworks')
       .expect(200)
-      .expect('Hello World!');
+      .expect((res) => {
+        // Le TransformInterceptor renvoie la réponse sous forme { data, meta, timestamp }
+        const responseBody = res.body;
+        expect(responseBody).toHaveProperty('data');
+        expect(Array.isArray(responseBody.data)).toBe(true);
+      });
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close();
   });
 });

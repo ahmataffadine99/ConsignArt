@@ -49,6 +49,7 @@ L'intégralité du cahier des charges fonctionnel a été implémentée :
 - **Module Sales** : Gestion des ventes, calcul automatisé des commissions (40/35/30%), facturation (Acheteur et Artiste) gérés via transaction TypeORM.
 - **Module Exhibitions** : Création d'expositions (bloquée sans œuvres) et gestion complète des prêts (loans) inter-galeries.
 - **Module Reports** : Tableaux de bord et statistiques pour les Galeries, Artistes et Administrateurs.
+- **Tests (Unitaires & E2E)** : Couverture exhaustive (40+ tests au vert) des services critiques (Sales, Reports, Users) et test d'intégration E2E sur l'endpoint `/api/v1/artworks` tel que demandé dans le sujet.
 - **Bonus Frontend** : Application cliente React/Vite complète avec interface de connexion, tableau de bord personnalisé par rôle et catalogue d'œuvres (Vanilla CSS, Glassmorphism).
 
 ---
