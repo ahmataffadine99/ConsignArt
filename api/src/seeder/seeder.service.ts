@@ -87,7 +87,7 @@ export class SeederService implements OnModuleInit {
       galleryId: userGallery.id,
     });
 
-    // 4. Création des Œuvres (Simplifiées pour la démo)
+    // 4. Création des Œuvres (Réactivées pour te simplifier le test)
     this.logger.log('Création des œuvres d\'art...');
     
     // Œuvre 1 : Prix bas pour tester la commission de 40% (<= 5000)
@@ -142,33 +142,6 @@ export class SeederService implements OnModuleInit {
       imageUrl: '/images/bronze.png',
     });
 
-    // 5. Création des Ventes (Seulement 1 vente pour voir les chiffres facilement)
-    this.logger.log('Création des ventes...');
-    await this.salesService.create({
-      artworkId: aw1.id, // Prix 1000€ -> Commission 40% = 400€ pour la plateforme, 600€ pour l'artiste
-      buyerId: userCollector.id,
-      salePrice: 1000,
-    });
-
-    // 6. Création des Expositions
-    this.logger.log('Création des expositions...');
-    await this.exhibitionsService.create(userGallery.id, {
-      name: 'Exposition Démo',
-      startDate: '2026-09-01T00:00:00Z',
-      endDate: '2026-10-31T00:00:00Z',
-      location: 'Salle Principale',
-      artworkIds: [aw2.id],
-    });
-
-    this.logger.log('Création des prêts (Loans)...');
-    await this.exhibitionsService.createLoan(userGallery.id, {
-      artworkId: aw4.id,
-      toGalleryId: userGallery2.id,
-      startDate: '2027-01-01T00:00:00Z',
-      endDate: '2027-02-01T00:00:00Z',
-      conditions: 'Transport sécurisé',
-    });
-
-    this.logger.log('Fixtures insérées avec succès !');
+    this.logger.log('Fixtures (Comptes et Œuvres) insérées avec succès ! Les Ventes et Prêts restent vides pour tes tests.');
   }
 }
